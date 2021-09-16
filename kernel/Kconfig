@@ -135,6 +135,14 @@ config SCHED_CPU_MASK
 	  makes sense as an application API only where there is more than one
 	  CPU.  With one CPU, it's just a higher overhead version of
 	  k_thread_start/stop().
+	  
+config SYSIO_HOOK
+	bool "Enable sys_read/sys_write hook methods"
+	help
+	  When true, calls to sys_write8/16/32 and sys_read8/16/32 will be
+	  routed through a hook mechanism. This enables the native architecture
+	  to intercept sys_read/sys_write and route the calls to a cosimulation 
+	  environment.
 
 config MAIN_STACK_SIZE
 	int "Size of stack for initialization and main thread"

@@ -353,6 +353,36 @@ typedef uintptr_t mem_addr_t;
  * @return 0 if it was clear, 1 otherwise
  */
 
+#ifdef CONFIG_SYSIO_HOOK
+/**
+ * If sysio hooks are enabled, the behavior of sys_read/sys_write
+ * methods can be customized. This can be useful in a cosimulation
+ * environment.
+ */
+
+typedef void (sys_write8_t)(uint8_t, mm_reg_t);
+typedef uint8_t (sys_read8_t)(mm_reg_t);
+typedef void (sys_write16_t)(uint16_t, mm_reg_t);
+typedef uint16_t (sys_read16_t)(mm_reg_t);
+typedef void (sys_write32_t)(uint32_t, mm_reg_t);
+typedef uint32_t (sys_read32_t)(mm_reg_t);
+
+void sys_write8_hook(uint8_t, mm_reg_t);
+uint8_t sys_read8_hook(mm_reg_t);
+void sys_write16_hook(uint16_t, mm_reg_t);
+uint16_t sys_read16_hook(mm_reg_t);
+void sys_write32_hook(uint32_t, mm_reg_t);
+uint32_t sys_read32_hook(mm_reg_t);
+
+void sys_write8_hook_install(sys_write8_t *);
+void sys_read8_hook_install(sys_read8_t *);
+void sys_write16_hook_install(sys_write16_t *);
+void sys_read16_hook_install(sys_read16_t *);
+void sys_write32_hook_install(sys_write32_t *);
+void sys_read32_hook_install(sys_read32_t *);
+
+
+#endif /* CONFIG_SYSIO_HOOK */
 
 #ifdef __cplusplus
 }

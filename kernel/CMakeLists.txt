@@ -97,6 +97,14 @@ target_sources_ifdef(
   userspace_handler.c
   userspace.c
   )
+ 
+# Include the definition of sys_io hooks if hooks have been enabled
+target_sources_ifdef(
+  CONFIG_SYSIO_HOOK
+  kernel PRIVATE
+  sysio_hooks.c
+  )
+
 
 if(CONFIG_CACHE_MANAGEMENT AND CONFIG_USERSPACE)
   target_sources(kernel PRIVATE cache_handlers.c)

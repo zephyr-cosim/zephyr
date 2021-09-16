@@ -94,34 +94,48 @@ static ALWAYS_INLINE uint32_t sys_in32(io_port_t port)
 
 static ALWAYS_INLINE void sys_write8(uint8_t data, mm_reg_t addr)
 {
+#ifdef CONFIG_SYSIO_HOOK
+	xxx
+	sys_write8_hook(data, addr);
+#else
 	__asm__ volatile("movb %0, %1"
 			 :
 			 : "q"(data), "m" (*(volatile uint8_t *)(uintptr_t) addr)
 			 : "memory");
+#endif
 }
 
 static ALWAYS_INLINE uint8_t sys_read8(mm_reg_t addr)
 {
+#ifdef CONFIG_SYSIO_HOOK
+	return sys_read8_hook(addr);
+#else
 	uint8_t ret;
-
 	__asm__ volatile("movb %1, %0"
 			 : "=q"(ret)
 			 : "m" (*(volatile uint8_t *)(uintptr_t) addr)
 			 : "memory");
-
 	return ret;
+#endif
 }
 
 static ALWAYS_INLINE void sys_write16(uint16_t data, mm_reg_t addr)
 {
+#ifdef CONFIG_SYSIO_HOOK
+	sys_write16_hook(data, addr);
+#else
 	__asm__ volatile("movw %0, %1"
 			 :
 			 : "r"(data), "m" (*(volatile uint16_t *)(uintptr_t) addr)
 			 : "memory");
+#endif
 }
 
 static ALWAYS_INLINE uint16_t sys_read16(mm_reg_t addr)
 {
+#ifdef CONFIG_SYSIO_HOOK
+	return sys_read16_hook(addr);
+#else
 	uint16_t ret;
 
 	__asm__ volatile("movw %1, %0"
@@ -130,18 +144,26 @@ static ALWAYS_INLINE uint16_t sys_read16(mm_reg_t addr)
 			 : "memory");
 
 	return ret;
+#endif
 }
 
 static ALWAYS_INLINE void sys_write32(uint32_t data, mm_reg_t addr)
 {
+#ifdef CONFIG_SYSIO_HOOK
+	sys_write32_hook(data, addr);
+#else
 	__asm__ volatile("movl %0, %1"
 			 :
 			 : "r"(data), "m" (*(volatile uint32_t *)(uintptr_t) addr)
 			 : "memory");
+#endif
 }
 
 static ALWAYS_INLINE uint32_t sys_read32(mm_reg_t addr)
 {
+#ifdef CONFIG_SYSIO_HOOK
+	return sys_read32_hook(addr);
+#else
 	uint32_t ret;
 
 	__asm__ volatile("movl %1, %0"
@@ -150,6 +172,7 @@ static ALWAYS_INLINE uint32_t sys_read32(mm_reg_t addr)
 			 : "memory");
 
 	return ret;
+#endif
 }
 
 static ALWAYS_INLINE void sys_set_bit(mem_addr_t addr, unsigned int bit)

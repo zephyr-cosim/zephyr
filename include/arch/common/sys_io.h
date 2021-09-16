@@ -22,32 +22,56 @@ extern "C" {
 
 static ALWAYS_INLINE uint8_t sys_read8(mem_addr_t addr)
 {
+#ifdef CONFIG_SYSIO_HOOK
+	return sys_read8_hook(addr);
+#else
 	return *(volatile uint8_t *)addr;
+#endif
 }
 
 static ALWAYS_INLINE void sys_write8(uint8_t data, mem_addr_t addr)
 {
+#ifdef CONFIG_SYSIO_HOOK
+	sys_write8_hook(data, addr);
+#else
 	*(volatile uint8_t *)addr = data;
+#endif
 }
 
 static ALWAYS_INLINE uint16_t sys_read16(mem_addr_t addr)
 {
+#ifdef CONFIG_SYSIO_HOOK
+	return sys_read16_hook(addr);
+#else
 	return *(volatile uint16_t *)addr;
+#endif
 }
 
 static ALWAYS_INLINE void sys_write16(uint16_t data, mem_addr_t addr)
 {
+#ifdef CONFIG_SYSIO_HOOK
+	sys_write16_hook(data, addr);
+#else
 	*(volatile uint16_t *)addr = data;
+#endif
 }
 
 static ALWAYS_INLINE uint32_t sys_read32(mem_addr_t addr)
 {
+#ifdef CONFIG_SYSIO_HOOK
+	return sys_read32_hook(addr);
+#else
 	return *(volatile uint32_t *)addr;
+#endif
 }
 
 static ALWAYS_INLINE void sys_write32(uint32_t data, mem_addr_t addr)
 {
+#ifdef CONFIG_SYSIO_HOOK
+	sys_write32_hook(data, addr);
+#else
 	*(volatile uint32_t *)addr = data;
+#endif
 }
 
 #ifdef __cplusplus
